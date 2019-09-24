@@ -12,8 +12,17 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - run: npm ci
-    - run: npm test
-    - uses: ./
+    - run: npm it
+    - name: Run with "lts"
+      uses: ./
       with:
-        milliseconds: 1000
+        versions: lts
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    - name: Run with "current, lts_latest"
+      uses: ./
+      with:
+        versions: current, lts_latest
+        workflowFile: .github/workflows/tmp-test.tml
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
